@@ -1,0 +1,318 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2EB8B52B14EA879200182314 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EB8B52A14EA879200182314 /* UIKit.framework */; };
+		2EB8B52D14EA879200182314 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EB8B52C14EA879200182314 /* Foundation.framework */; };
+		2EB8B52F14EA879200182314 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EB8B52E14EA879200182314 /* CoreGraphics.framework */; };
+		2EB8B53514EA879200182314 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2EB8B53314EA879200182314 /* InfoPlist.strings */; };
+		2EB8B53714EA879200182314 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8B53614EA879200182314 /* main.m */; };
+		2EB8B53B14EA879200182314 /* SFAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8B53A14EA879200182314 /* SFAppDelegate.m */; };
+		2EB8B53E14EA879200182314 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EB8B53C14EA879200182314 /* MainStoryboard_iPhone.storyboard */; };
+		2EB8B54114EA879200182314 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EB8B53F14EA879200182314 /* MainStoryboard_iPad.storyboard */; };
+		2EB8B54414EA879200182314 /* SFFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8B54314EA879200182314 /* SFFirstViewController.m */; };
+		2EB8B54614EA879200182314 /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EB8B54514EA879200182314 /* first.png */; };
+		2EB8B54814EA879200182314 /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EB8B54714EA879200182314 /* first@2x.png */; };
+		2EB8B54B14EA879200182314 /* SFSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8B54A14EA879200182314 /* SFSecondViewController.m */; };
+		2EB8B54D14EA879200182314 /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EB8B54C14EA879200182314 /* second.png */; };
+		2EB8B54F14EA879200182314 /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EB8B54E14EA879200182314 /* second@2x.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2EB8B52614EA879200182314 /* SoundcloudFavs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoundcloudFavs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2EB8B52A14EA879200182314 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2EB8B52C14EA879200182314 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2EB8B52E14EA879200182314 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2EB8B53214EA879200182314 /* SoundcloudFavs-Info.plist */ = {isa = PBXFileReference; path = "SoundcloudFavs-Info.plist"; sourceTree = "<group>"; };
+		2EB8B53414EA879200182314 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2EB8B53614EA879200182314 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2EB8B53814EA879200182314 /* SoundcloudFavs-Prefix.pch */ = {isa = PBXFileReference; path = "SoundcloudFavs-Prefix.pch"; sourceTree = "<group>"; };
+		2EB8B53914EA879200182314 /* SFAppDelegate.h */ = {isa = PBXFileReference; path = SFAppDelegate.h; sourceTree = "<group>"; };
+		2EB8B53A14EA879200182314 /* SFAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFAppDelegate.m; sourceTree = "<group>"; };
+		2EB8B53D14EA879200182314 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		2EB8B54014EA879200182314 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		2EB8B54214EA879200182314 /* SFFirstViewController.h */ = {isa = PBXFileReference; path = SFFirstViewController.h; sourceTree = "<group>"; };
+		2EB8B54314EA879200182314 /* SFFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFFirstViewController.m; sourceTree = "<group>"; };
+		2EB8B54514EA879200182314 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
+		2EB8B54714EA879200182314 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
+		2EB8B54914EA879200182314 /* SFSecondViewController.h */ = {isa = PBXFileReference; path = SFSecondViewController.h; sourceTree = "<group>"; };
+		2EB8B54A14EA879200182314 /* SFSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSecondViewController.m; sourceTree = "<group>"; };
+		2EB8B54C14EA879200182314 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
+		2EB8B54E14EA879200182314 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2EB8B52314EA879200182314 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2EB8B52B14EA879200182314 /* UIKit.framework in Frameworks */,
+				2EB8B52D14EA879200182314 /* Foundation.framework in Frameworks */,
+				2EB8B52F14EA879200182314 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2EB8B51B14EA879100182314 = {
+			isa = PBXGroup;
+			children = (
+				2EB8B53014EA879200182314 /* SoundcloudFavs */,
+				2EB8B52914EA879200182314 /* Frameworks */,
+				2EB8B52714EA879200182314 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2EB8B52714EA879200182314 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2EB8B52614EA879200182314 /* SoundcloudFavs.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2EB8B52914EA879200182314 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2EB8B52A14EA879200182314 /* UIKit.framework */,
+				2EB8B52C14EA879200182314 /* Foundation.framework */,
+				2EB8B52E14EA879200182314 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2EB8B53014EA879200182314 /* SoundcloudFavs */ = {
+			isa = PBXGroup;
+			children = (
+				2EB8B53914EA879200182314 /* SFAppDelegate.h */,
+				2EB8B53A14EA879200182314 /* SFAppDelegate.m */,
+				2EB8B53C14EA879200182314 /* MainStoryboard_iPhone.storyboard */,
+				2EB8B53F14EA879200182314 /* MainStoryboard_iPad.storyboard */,
+				2EB8B54214EA879200182314 /* SFFirstViewController.h */,
+				2EB8B54314EA879200182314 /* SFFirstViewController.m */,
+				2EB8B54514EA879200182314 /* first.png */,
+				2EB8B54714EA879200182314 /* first@2x.png */,
+				2EB8B54914EA879200182314 /* SFSecondViewController.h */,
+				2EB8B54A14EA879200182314 /* SFSecondViewController.m */,
+				2EB8B54C14EA879200182314 /* second.png */,
+				2EB8B54E14EA879200182314 /* second@2x.png */,
+				2EB8B53114EA879200182314 /* Supporting Files */,
+			);
+			path = SoundcloudFavs;
+			sourceTree = "<group>";
+		};
+		2EB8B53114EA879200182314 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2EB8B53214EA879200182314 /* SoundcloudFavs-Info.plist */,
+				2EB8B53314EA879200182314 /* InfoPlist.strings */,
+				2EB8B53614EA879200182314 /* main.m */,
+				2EB8B53814EA879200182314 /* SoundcloudFavs-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2EB8B52514EA879200182314 /* SoundcloudFavs */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2EB8B55214EA879200182314 /* Build configuration list for PBXNativeTarget "SoundcloudFavs" */;
+			buildPhases = (
+				2EB8B52214EA879200182314 /* Sources */,
+				2EB8B52314EA879200182314 /* Frameworks */,
+				2EB8B52414EA879200182314 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SoundcloudFavs;
+			productName = SoundcloudFavs;
+			productReference = 2EB8B52614EA879200182314 /* SoundcloudFavs.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2EB8B51D14EA879100182314 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "Queens University Belfast";
+			};
+			buildConfigurationList = 2EB8B52014EA879100182314 /* Build configuration list for PBXProject "SoundcloudFavs" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2EB8B51B14EA879100182314;
+			productRefGroup = 2EB8B52714EA879200182314 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2EB8B52514EA879200182314 /* SoundcloudFavs */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2EB8B52414EA879200182314 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2EB8B53514EA879200182314 /* InfoPlist.strings in Resources */,
+				2EB8B53E14EA879200182314 /* MainStoryboard_iPhone.storyboard in Resources */,
+				2EB8B54114EA879200182314 /* MainStoryboard_iPad.storyboard in Resources */,
+				2EB8B54614EA879200182314 /* first.png in Resources */,
+				2EB8B54814EA879200182314 /* first@2x.png in Resources */,
+				2EB8B54D14EA879200182314 /* second.png in Resources */,
+				2EB8B54F14EA879200182314 /* second@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2EB8B52214EA879200182314 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2EB8B53714EA879200182314 /* main.m in Sources */,
+				2EB8B53B14EA879200182314 /* SFAppDelegate.m in Sources */,
+				2EB8B54414EA879200182314 /* SFFirstViewController.m in Sources */,
+				2EB8B54B14EA879200182314 /* SFSecondViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		2EB8B53314EA879200182314 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2EB8B53414EA879200182314 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		2EB8B53C14EA879200182314 /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2EB8B53D14EA879200182314 /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		2EB8B53F14EA879200182314 /* MainStoryboard_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2EB8B54014EA879200182314 /* en */,
+			);
+			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2EB8B55014EA879200182314 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2EB8B55114EA879200182314 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2EB8B55314EA879200182314 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SoundcloudFavs/SoundcloudFavs-Prefix.pch";
+				INFOPLIST_FILE = "SoundcloudFavs/SoundcloudFavs-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		2EB8B55414EA879200182314 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SoundcloudFavs/SoundcloudFavs-Prefix.pch";
+				INFOPLIST_FILE = "SoundcloudFavs/SoundcloudFavs-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2EB8B52014EA879100182314 /* Build configuration list for PBXProject "SoundcloudFavs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2EB8B55014EA879200182314 /* Debug */,
+				2EB8B55114EA879200182314 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2EB8B55214EA879200182314 /* Build configuration list for PBXNativeTarget "SoundcloudFavs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2EB8B55314EA879200182314 /* Debug */,
+				2EB8B55414EA879200182314 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2EB8B51D14EA879100182314 /* Project object */;
+}
