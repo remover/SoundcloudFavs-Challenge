@@ -30,7 +30,7 @@ NSString *kRedirectURLStr = @"soundcloudfavs://soundcloud";
 
 + (void)initialize;
 {
-    [SCSoundCloud removeAccess];
+//    [SCSoundCloud removeAccess];
 
     [SCSoundCloud  setClientID:kClientID
                         secret:kSecret

@@ -13,6 +13,7 @@
 #import "SFUser.h"
 
 @implementation SFFeedsTVC
+@synthesize testHalfImage;
 
 @synthesize responseJKArray, titleLab, wavImageView, highestRowLoaded, delegate, user;
 
@@ -113,8 +114,9 @@
         [user.favTrackIDAr addObject:[dict objectForKey:@"id"]];
     }
     
-    [self.tableView reloadData];
+//    NSLog(@"title: %@, wav urls: %@", user.favTitlesAr, user.favWavformURLAr);
     
+    [self.tableView reloadData];    
 }
 
 
@@ -138,6 +140,7 @@
 
 - (void)viewDidUnload
 {
+    [self setTestHalfImage:nil];
     [super viewDidUnload];
     
     titleLab = nil;
@@ -200,11 +203,9 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    UILabel *lab = (UILabel*)[cell viewWithTag:1];
-    UIImageView *iv = (UIImageView*)[cell viewWithTag:2];
+    UILabel *lab = (UILabel*)[cell viewWithTag:1];    
+    lab.text = [self.user.favTitlesAr objectAtIndex:indexPath.row];    
     
-    lab.text = [self.user.favTitlesAr objectAtIndex:indexPath.row];
-
     [self setHighestRowLoaded:indexPath.row];
     
     if (indexPath.row >= [self getHighestRowLoaded] && self.user != nil)
@@ -212,9 +213,17 @@
         dispatch_queue_t queue = 
         dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         dispatch_async(queue, ^{
+            
+            UIImageView *iv = (UIImageView*)[cell viewWithTag:2];
+            [iv setBackgroundColor:[UIColor blueColor]];
+
             NSURL *url = [[NSURL alloc] initWithString:[self.user.favWavformURLAr objectAtIndex:indexPath.row]];
             NSData *imageData = [[NSData alloc] initWithContentsOfURL:url];
-            iv.image = [[UIImage alloc] initWithData:imageData];
+            UIImage *image = [[UIImage alloc] initWithData:imageData];
+            
+            CGImageRef cgImage = CGImageCreateWithImageInRect(image.CGImage, CGRectMake(0, 0, image.size.width, image.size.height / 2));            
+            iv.image = [UIImage imageWithCGImage:cgImage];
+            
         });
     }
     

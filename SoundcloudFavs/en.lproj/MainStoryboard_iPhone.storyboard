@@ -46,7 +46,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" id="cPo-jn-e4m">
-                                            <rect key="frame" x="0.0" y="35" width="320" height="70"/>
+                                            <rect key="frame" x="0.0" y="35" width="320" height="35"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                     </subviews>
@@ -68,10 +68,6 @@
     <classes>
         <class className="SFFeedsTVC" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SFFeedsTVC.h"/>
-            <relationships>
-                <relationship kind="outlet" name="titleLab" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="wavImageView" candidateClass="UIImageView"/>
-            </relationships>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
