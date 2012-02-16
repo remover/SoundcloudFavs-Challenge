@@ -11,6 +11,7 @@
 #import "JSONKit.h"
 #import "SFAppDelegate.h"
 #import "SFUser.h"
+#import "SFCustomTableViewCell.h"
 
 @implementation SFFeedsTVC
 
@@ -237,19 +238,21 @@
             
             iv.image = [self.user.wavformImagesAr objectAtIndex:indexPath.row];
             [iv setBackgroundColor:[UIColor blueColor]];
-            
-            [cell.contentView setNeedsDisplay];
+                        
+            [(SFCustomTableViewCell*)cell setShouldResetBgColour:NO];
 
             NSLog(@"downloaded image for cell at row: %d",indexPath.row);
             
         });
+        
+        iv.image = [UIImage imageNamed:@"loading_wav"];
     }
     else
     {
         iv.image = [self.user.wavformImagesAr objectAtIndex:indexPath.row];        
     }
     
-
+    [cell.contentView setNeedsDisplay];
     
     return cell;
 }

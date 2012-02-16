@@ -10,11 +10,14 @@
 
 @implementation SFCustomTableViewCell
 
+@synthesize shouldResetBgColour;
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        // Initialization code
+    if (self) 
+    {
+        shouldResetBgColour = YES;
     }
     return self;
 }
@@ -30,9 +33,12 @@
 {
     [super prepareForReuse];
     
-    for (id view in self.contentView.subviews) {
-        if([view isMemberOfClass:[UIImageView class]])
-            [view setBackgroundColor:[UIColor whiteColor]];
+    if(self.shouldResetBgColour)
+    {
+        for (id view in self.contentView.subviews) {
+            if([view isMemberOfClass:[UIImageView class]])
+                [view setBackgroundColor:[UIColor whiteColor]];
+        }
     }
     
 }

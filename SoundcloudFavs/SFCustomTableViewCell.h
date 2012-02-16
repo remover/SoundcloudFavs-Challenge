@@ -10,4 +10,6 @@
 
 @interface SFCustomTableViewCell : UITableViewCell
 
+@property (nonatomic, assign) BOOL shouldResetBgColour;
+
 @end
