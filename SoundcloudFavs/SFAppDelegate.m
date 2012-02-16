@@ -7,16 +7,36 @@
 //
 
 #import "SFAppDelegate.h"
+#import "SCUI.h"
+#import "SCAPI.h"
+
+NSString *kClientID = @"9089b0b73fd02458609874d04a1cdeda";
+NSString *kSecret = @"5af54e87cb2b4f084bdecdb5e3d6477c";
+NSString *kRedirectURLStr = @"soundcloudfavs://soundcloud";
+
 
 @implementation SFAppDelegate
 
-@synthesize window = _window;
+@synthesize window = _window, clientID, secret, redirectURLStr;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    clientID = kClientID;
+    secret = kSecret;
+    redirectURLStr = kRedirectURLStr;
+    
     return YES;
 }
+
++ (void)initialize;
+{
+    [SCSoundCloud removeAccess];
+
+    [SCSoundCloud  setClientID:kClientID
+                        secret:kSecret
+                   redirectURL:[NSURL URLWithString:kRedirectURLStr]];    
+}
+
 							
 - (void)applicationWillResignActive:(UIApplication *)application
 {
