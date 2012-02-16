@@ -22,7 +22,6 @@
 -(void)login;
 -(void)getFavourites;
 -(void)createArraysForTableView;
--(UIImage*)waveformForRowAtIndexPath:(NSIndexPath*)ip;
 -(NSInteger)getHighestRowLoaded;
 -(void)setHighestRowLoaded:(NSInteger)newVal;
 

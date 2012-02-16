@@ -159,6 +159,8 @@
 
     if([SCSoundCloud account] == nil)
         [self login];
+    else
+        [self getFavourites];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -204,29 +206,21 @@
     lab.text = [self.user.favTitlesAr objectAtIndex:indexPath.row];
 
     [self setHighestRowLoaded:indexPath.row];
-
-    if (indexPath.row >= [self getHighestRowLoaded])
+    
+    if (indexPath.row >= [self getHighestRowLoaded] && self.user != nil)
     { 
-        iv.image = [self waveformForRowAtIndexPath:indexPath];
+        dispatch_queue_t queue = 
+        dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_async(queue, ^{
+            NSURL *url = [[NSURL alloc] initWithString:[self.user.favWavformURLAr objectAtIndex:indexPath.row]];
+            NSData *imageData = [[NSData alloc] initWithContentsOfURL:url];
+            iv.image = [[UIImage alloc] initWithData:imageData];
+        });
     }
     
     return cell;
 }
 
--(UIImage*)waveformForRowAtIndexPath:(NSIndexPath*)ip
-{
-    UIImage *returnVal = nil;
-    
-    if (ip.row < 100)
-    {        
-        NSURL *url = [[NSURL alloc] initWithString:[self.user.favWavformURLAr objectAtIndex:ip.row]];
-        NSData *avatarData = [[NSData alloc] initWithContentsOfURL:url];
-        returnVal = [[UIImage alloc] initWithData:avatarData];        
-    }
-    
-    return returnVal;        
-    
-}
 
 -(void)setHighestRowLoaded:(NSInteger)newVal
 {
