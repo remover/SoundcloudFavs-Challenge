@@ -18,11 +18,11 @@
 @property (nonatomic, weak) UIImageView *wavImageView;
 @property (nonatomic, assign) NSInteger highestRowLoaded;
 @property (nonatomic, weak) SFAppDelegate *delegate;
+@property (nonatomic, assign) BOOL hasLastRowBeenReached;
 
 -(void)login;
 -(void)getFavourites;
 -(void)createArraysForTableView;
--(NSInteger)getHighestRowLoaded;
 -(void)setHighestRowLoaded:(NSInteger)newVal;
 
 

@@ -13,9 +13,14 @@
 #import "SFUser.h"
 #import "SFCustomTableViewCell.h"
 
+enum cellSubviewTags {
+    kCellSubViewTitleLabel = 1,
+    kCellSubViewWavImageView
+    };
+
 @implementation SFFeedsTVC
 
-@synthesize responseJKArray, titleLab, wavImageView, highestRowLoaded, delegate, user;
+@synthesize responseJKArray, titleLab, wavImageView, highestRowLoaded, delegate, user, hasLastRowBeenReached;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -115,8 +120,6 @@
         UIImage *placeholder = [[UIImage alloc]init];
         [self.user.wavformImagesAr addObject:placeholder];
     }
-
-//    NSLog(@"title: %@, wav urls: %@", user.favTitlesAr, user.favWavformURLAr);
     
     [self.tableView reloadData];    
 }
@@ -202,6 +205,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+//    NSLog(@"asking for cell at row: %d",indexPath.row);
+
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -209,20 +214,18 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    
-    UILabel *lab = (UILabel*)[cell viewWithTag:1];
-    UIImageView *iv = (UIImageView*)[cell viewWithTag:2];
+    UILabel *lab = (UILabel*)[cell viewWithTag:kCellSubViewTitleLabel];
+    UIImageView *iv = (UIImageView*)[cell viewWithTag:kCellSubViewWavImageView];
 
     lab.text = [self.user.favTitlesAr objectAtIndex:indexPath.row];    
     
-    [self setHighestRowLoaded:indexPath.row];
-    
-    NSLog(@"asking for cell at row: %d",indexPath.row);
-    
-    if (indexPath.row >= [self getHighestRowLoaded] && self.user != nil)
-    { 
-        iv.image = nil;
+    self.highestRowLoaded = indexPath.row;
         
+    if (indexPath.row >= self.highestRowLoaded && self.user != nil && !hasLastRowBeenReached)
+    { 
+        if(indexPath.row == [self.user.favTitlesAr count] - 1)
+            hasLastRowBeenReached = YES;
+                
         dispatch_queue_t queue = 
         dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         dispatch_async(queue, ^{
@@ -237,11 +240,14 @@
             [self.user.wavformImagesAr replaceObjectAtIndex:indexPath.row withObject:imageToInsertInAr];            
             
             iv.image = [self.user.wavformImagesAr objectAtIndex:indexPath.row];
+           
             [iv setBackgroundColor:[UIColor blueColor]];
                         
             [(SFCustomTableViewCell*)cell setShouldResetBgColour:NO];
-
-            NSLog(@"downloaded image for cell at row: %d",indexPath.row);
+            
+            [iv performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+                    
+//            NSLog(@"downloaded image for cell at row: %d",indexPath.row);
             
         });
         
@@ -251,9 +257,7 @@
     {
         iv.image = [self.user.wavformImagesAr objectAtIndex:indexPath.row];        
     }
-    
-    [cell.contentView setNeedsDisplay];
-    
+        
     return cell;
 }
 
@@ -264,12 +268,6 @@
         highestRowLoaded = newVal;
     
 }
-
--(NSInteger)getHighestRowLoaded
-{
-    return highestRowLoaded;
-}
-
 
 
 /*
