@@ -10,6 +10,6 @@
 
 @interface SFUser : NSObject
 
-@property (nonatomic, strong) NSMutableArray *favTitlesAr, *favWavformURLAr, *favTrackIDAr;
+@property (nonatomic, strong) NSMutableArray *favTitlesAr, *favWavformURLAr,  *wavformImagesAr, *favTrackIDAr;
 
 @end

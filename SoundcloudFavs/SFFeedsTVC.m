@@ -13,7 +13,6 @@
 #import "SFUser.h"
 
 @implementation SFFeedsTVC
-@synthesize testHalfImage;
 
 @synthesize responseJKArray, titleLab, wavImageView, highestRowLoaded, delegate, user;
 
@@ -97,23 +96,25 @@
 
 
 -(void)createArraysForTableView
-{
-    user = [[SFUser alloc] init];                    
-    
-    user.favTitlesAr = [NSMutableArray arrayWithCapacity:1];
-    user.favWavformURLAr = [NSMutableArray arrayWithCapacity:1];
-    user.favTrackIDAr = [NSMutableArray arrayWithCapacity:1];
-
-    
+{    
     for (int i = 0; i < [responseJKArray count]; i++)
     {
         NSDictionary *dict = [responseJKArray objectAtIndex:i];
         
-        [user.favTitlesAr addObject:[dict objectForKey:@"title"]];
-        [user.favWavformURLAr addObject:[dict objectForKey:@"waveform_url"]];
-        [user.favTrackIDAr addObject:[dict objectForKey:@"id"]];
+        [self.user.favTitlesAr addObject:[dict objectForKey:@"title"]];
+        [self.user.favWavformURLAr addObject:[dict objectForKey:@"waveform_url"]];
+        [self.user.favTrackIDAr addObject:[dict objectForKey:@"id"]];
     }
     
+    
+    self.user.wavformImagesAr = [NSMutableArray arrayWithCapacity:[self.user.favTitlesAr count]];
+    
+    for (id obj in self.user.favTitlesAr)
+    {
+        UIImage *placeholder = [[UIImage alloc]init];
+        [self.user.wavformImagesAr addObject:placeholder];
+    }
+
 //    NSLog(@"title: %@, wav urls: %@", user.favTitlesAr, user.favWavformURLAr);
     
     [self.tableView reloadData];    
@@ -135,12 +136,16 @@
     delegate = (SFAppDelegate*)[UIApplication sharedApplication].delegate;
     
     self.tableView.rowHeight = 70;
-
+    
+    user = [[SFUser alloc] init];                    
+    
+    user.favTitlesAr = [NSMutableArray arrayWithCapacity:1];
+    user.favWavformURLAr = [NSMutableArray arrayWithCapacity:1];
+    user.favTrackIDAr = [NSMutableArray arrayWithCapacity:1];
 }
 
 - (void)viewDidUnload
 {
-    [self setTestHalfImage:nil];
     [super viewDidUnload];
     
     titleLab = nil;
@@ -203,29 +208,48 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    UILabel *lab = (UILabel*)[cell viewWithTag:1];    
+    
+    UILabel *lab = (UILabel*)[cell viewWithTag:1];
+    UIImageView *iv = (UIImageView*)[cell viewWithTag:2];
+
     lab.text = [self.user.favTitlesAr objectAtIndex:indexPath.row];    
     
     [self setHighestRowLoaded:indexPath.row];
     
+    NSLog(@"asking for cell at row: %d",indexPath.row);
+    
     if (indexPath.row >= [self getHighestRowLoaded] && self.user != nil)
     { 
+        iv.image = nil;
+        
         dispatch_queue_t queue = 
         dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         dispatch_async(queue, ^{
-            
-            UIImageView *iv = (UIImageView*)[cell viewWithTag:2];
-            [iv setBackgroundColor:[UIColor blueColor]];
-
+        
             NSURL *url = [[NSURL alloc] initWithString:[self.user.favWavformURLAr objectAtIndex:indexPath.row]];
             NSData *imageData = [[NSData alloc] initWithContentsOfURL:url];
             UIImage *image = [[UIImage alloc] initWithData:imageData];
             
-            CGImageRef cgImage = CGImageCreateWithImageInRect(image.CGImage, CGRectMake(0, 0, image.size.width, image.size.height / 2));            
-            iv.image = [UIImage imageWithCGImage:cgImage];
+            CGImageRef cgImage = CGImageCreateWithImageInRect(image.CGImage, CGRectMake(0, 0, image.size.width, image.size.height / 2)); 
+
+            UIImage *imageToInsertInAr = [UIImage imageWithCGImage:cgImage];
+            [self.user.wavformImagesAr replaceObjectAtIndex:indexPath.row withObject:imageToInsertInAr];            
+            
+            iv.image = [self.user.wavformImagesAr objectAtIndex:indexPath.row];
+            [iv setBackgroundColor:[UIColor blueColor]];
+            
+            [cell.contentView setNeedsDisplay];
+
+            NSLog(@"downloaded image for cell at row: %d",indexPath.row);
             
         });
     }
+    else
+    {
+        iv.image = [self.user.wavformImagesAr objectAtIndex:indexPath.row];        
+    }
+    
+
     
     return cell;
 }

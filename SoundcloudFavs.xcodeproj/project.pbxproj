@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2EB2728314ED01F000D1C133 /* SFUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2728214ED01F000D1C133 /* SFUser.m */; };
+		2EB2728814ED682400D1C133 /* SFCustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2728714ED682400D1C133 /* SFCustomTableViewCell.m */; };
 		2EB8B52B14EA879200182314 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EB8B52A14EA879200182314 /* UIKit.framework */; };
 		2EB8B52D14EA879200182314 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EB8B52C14EA879200182314 /* Foundation.framework */; };
 		2EB8B52F14EA879200182314 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EB8B52E14EA879200182314 /* CoreGraphics.framework */; };
@@ -37,6 +38,8 @@
 /* Begin PBXFileReference section */
 		2EB2728114ED01F000D1C133 /* SFUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFUser.h; sourceTree = "<group>"; };
 		2EB2728214ED01F000D1C133 /* SFUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFUser.m; sourceTree = "<group>"; };
+		2EB2728614ED682400D1C133 /* SFCustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCustomTableViewCell.h; sourceTree = "<group>"; };
+		2EB2728714ED682400D1C133 /* SFCustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFCustomTableViewCell.m; sourceTree = "<group>"; };
 		2EB8B52614EA879200182314 /* SoundcloudFavs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoundcloudFavs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EB8B52A14EA879200182314 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2EB8B52C14EA879200182314 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -158,6 +161,8 @@
 				2EB8B53A14EA879200182314 /* SFAppDelegate.m */,
 				2EB8B58214EA947300182314 /* SFFeedsTVC.h */,
 				2EB8B58314EA947300182314 /* SFFeedsTVC.m */,
+				2EB2728614ED682400D1C133 /* SFCustomTableViewCell.h */,
+				2EB2728714ED682400D1C133 /* SFCustomTableViewCell.m */,
 				2EB2728014ED01C600D1C133 /* Models */,
 				2EB8B53114EA879200182314 /* Supporting Files */,
 			);
@@ -258,6 +263,7 @@
 				2EB8B53B14EA879200182314 /* SFAppDelegate.m in Sources */,
 				2EB8B58514EA947300182314 /* SFFeedsTVC.m in Sources */,
 				2EB2728314ED01F000D1C133 /* SFUser.m in Sources */,
+				2EB2728814ED682400D1C133 /* SFCustomTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

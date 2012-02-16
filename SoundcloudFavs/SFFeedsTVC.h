@@ -11,7 +11,6 @@
 @class SFAppDelegate, SFUser;
 
 @interface SFFeedsTVC : UITableViewController
-@property (weak, nonatomic) IBOutlet UIView *testHalfImage;
 
 @property (nonatomic, strong) id responseJKArray;
 @property (nonatomic, strong) SFUser *user;
