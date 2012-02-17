@@ -13,5 +13,7 @@
 @property (nonatomic, strong) NSMutableArray *favTitlesAr, *favWavformURLAr,  *wavformImagesAr, *favTrackIDAr;
 @property (nonatomic, strong) NSString *userName;
 
++ (SFUser *)sharedUserObj;
+- (void)purgeUserData;
 
 @end

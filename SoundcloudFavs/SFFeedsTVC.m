@@ -92,8 +92,9 @@ enum cellSubviewTags {
                               
                               NSLog(@"makeUserNameRequest response: %@", responseJKArray);
                               
-                              [self createArraysForTableView];
+                              self.user.userName = [responseJKArray objectForKey:@"username"];
                               
+                              NSLog(@"self.user.userName: %@", self.user.userName);
                           }
                       }];
     
@@ -144,9 +145,7 @@ enum cellSubviewTags {
         [self.user.favTrackIDAr addObject:[dict objectForKey:@"id"]];
     }
     
-    
-    self.user.wavformImagesAr = [NSMutableArray arrayWithCapacity:[self.user.favTitlesAr count]];
-    
+        
     for (id obj in self.user.favTitlesAr)
     {
         UIImage *placeholder = [[UIImage alloc]init];
@@ -154,16 +153,6 @@ enum cellSubviewTags {
     }
     
     [self.tableView reloadData]; 
-}
-
-
--(void)setupUser
-{
-    user = [[SFUser alloc] init];                    
-    
-    self.user.favTitlesAr = [NSMutableArray arrayWithCapacity:1];
-    self.user.favWavformURLAr = [NSMutableArray arrayWithCapacity:1];
-    self.user.favTrackIDAr = [NSMutableArray arrayWithCapacity:1];
 }
 
 
@@ -179,24 +168,13 @@ enum cellSubviewTags {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     delegate = (SFAppDelegate*)[UIApplication sharedApplication].delegate;
     
     self.tableView.rowHeight = 70;
     
-    [self setupUser];
+    self.user = [SFUser sharedUserObj];
     
-//    user = [[SFUser alloc] init];                    
-//    
-//    self.user.favTitlesAr = [NSMutableArray arrayWithCapacity:1];
-//    self.user.favWavformURLAr = [NSMutableArray arrayWithCapacity:1];
-//    self.user.favTrackIDAr = [NSMutableArray arrayWithCapacity:1];
 }
 
 - (void)viewDidUnload
@@ -226,10 +204,6 @@ enum cellSubviewTags {
         
         [alert show];
     }
-
-//        [self login];
-//    else
-//        [self getFavourites];
 }
 
 

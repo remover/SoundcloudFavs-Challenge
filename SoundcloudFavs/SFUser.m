@@ -12,4 +12,33 @@
 
 @synthesize favTitlesAr, favWavformURLAr, wavformImagesAr, favTrackIDAr, userName;
 
++ (SFUser *)sharedUserObj
+{
+    static SFUser *sharedInstance = nil;
+    
+    static dispatch_once_t onceToken;
+    
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[SFUser alloc] init];
+        
+        sharedInstance.favTitlesAr = [NSMutableArray arrayWithCapacity:1];
+        sharedInstance.favWavformURLAr = [NSMutableArray arrayWithCapacity:1];
+        sharedInstance.wavformImagesAr = [NSMutableArray arrayWithCapacity:1];
+        sharedInstance.favTrackIDAr = [NSMutableArray arrayWithCapacity:1];;
+    });
+    
+    return sharedInstance;
+}
+
+- (void)purgeUserData
+{
+    SFUser *sharedInstance = [SFUser sharedUserObj];
+    
+    sharedInstance.favTitlesAr = [NSMutableArray arrayWithCapacity:1];;
+    sharedInstance.favWavformURLAr = [NSMutableArray arrayWithCapacity:1];;
+    sharedInstance.wavformImagesAr = [NSMutableArray arrayWithCapacity:1];;
+    sharedInstance.favTrackIDAr = [NSMutableArray arrayWithCapacity:1];;
+    sharedInstance.userName = nil;
+}
+
 @end

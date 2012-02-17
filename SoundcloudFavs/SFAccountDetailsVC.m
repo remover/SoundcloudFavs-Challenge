@@ -9,7 +9,7 @@
 #import "SFAccountDetailsVC.h"
 #import "SFFeedsTVC.h"
 #import "SCAPI.h"
-
+#import "SFUser.h"
 
 @implementation SFAccountDetailsVC
 @synthesize statusLabel;
@@ -43,6 +43,8 @@
     else
     {
         [SCSoundCloud removeAccess];
+        
+        [[SFUser sharedUserObj]purgeUserData];
         
         SFFeedsTVC *feeds = [self.storyboard instantiateViewControllerWithIdentifier:@"tableViewController"];
                 

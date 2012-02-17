@@ -13,7 +13,7 @@
 @interface SFFeedsTVC : UITableViewController <UIAlertViewDelegate>
 
 @property (nonatomic, strong) id responseJKArray;
-@property (nonatomic, strong) SFUser *user;
+@property (nonatomic, weak) SFUser *user;
 @property (nonatomic, weak) UILabel *titleLab;
 @property (nonatomic, weak) UIImageView *wavImageView;
 @property (nonatomic, assign) NSInteger highestRowLoaded;
@@ -24,7 +24,6 @@
 -(void)getFavourites;
 -(void)createArraysForTableView;
 -(void)setHighestRowLoaded:(NSInteger)newVal;
--(void)setupUser;
 -(void)makeUserNameRequest;
 
 
