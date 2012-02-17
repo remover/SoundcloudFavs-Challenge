@@ -35,10 +35,11 @@ enum cellSubviewTags {
 {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
 }
 
+#pragma mark - login and requests
+
+//log the user in
 - (void)login
 {
     [SCSoundCloud requestAccessWithPreparedAuthorizationURLHandler:^(NSURL *preparedURL){
@@ -66,6 +67,7 @@ enum cellSubviewTags {
     }];
 }
 
+//get user name for user
 -(void)makeUserNameRequest
 {
     NSLog(@"makeUserNameRequest");
@@ -94,12 +96,12 @@ enum cellSubviewTags {
                               
                               self.user.userName = [responseJKArray objectForKey:@"username"];
                               
-                              NSLog(@"self.user.userName: %@", self.user.userName);
                           }
                       }];
     
 }
 
+//get favourites data
 -(void)getFavourites
 {
     NSLog(@"getFavourites");
@@ -123,9 +125,7 @@ enum cellSubviewTags {
                           } else {
                               
                               responseJKArray = [[JSONDecoder decoder]parseJSONData:data];
-                              
-//                              NSLog(@"favourites: %@", responseJKArray);
-                              
+                                                            
                               [self createArraysForTableView];
                              
                           }
@@ -133,9 +133,11 @@ enum cellSubviewTags {
     
 }
 
+#pragma mark - datasource helper methods
 
 -(void)createArraysForTableView
-{    
+{
+    //set up user arrays for table view
     for (int i = 0; i < [responseJKArray count]; i++)
     {
         NSDictionary *dict = [responseJKArray objectAtIndex:i];
@@ -146,7 +148,7 @@ enum cellSubviewTags {
         [self.user.favTrackURIsAr addObject:[dict objectForKey:@"uri"]];
     }
     
-        
+    //create placeholders for wavformImagesAr so we can use replaceObjectAtIndex on async callbacks from cellForRowAtIndexPath    
     for (id obj in self.user.favTitlesAr)
     {
         UIImage *placeholder = [[UIImage alloc]init];
@@ -195,6 +197,7 @@ enum cellSubviewTags {
     [super viewWillAppear:animated];
 }
 
+//
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -205,12 +208,13 @@ enum cellSubviewTags {
         
         [alert show];
     }
-    else
-    {
-        [self makeUserNameRequest];
-        
-        [self getFavourites];
-    }
+// for debugging
+//    else
+//    {
+//        [self makeUserNameRequest];
+//        
+//        [self getFavourites];
+//    }
 }
 
 
@@ -244,7 +248,6 @@ enum cellSubviewTags {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NSLog(@"asking for cell at row: %d",indexPath.row);
 
     static NSString *CellIdentifier = @"Cell";
     
@@ -260,11 +263,14 @@ enum cellSubviewTags {
     
     self.highestRowLoaded = indexPath.row;
         
+    //only download images once
     if (indexPath.row >= self.highestRowLoaded && !hasLastRowBeenReached)
     { 
+        //ensure last row doesn't cause image download
         if(indexPath.row == [self.user.favTitlesAr count] - 1)
             hasLastRowBeenReached = YES;
-                
+               
+        //async for scroll performance
         dispatch_queue_t queue = 
         dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         dispatch_async(queue, ^{
@@ -273,11 +279,14 @@ enum cellSubviewTags {
             NSData *imageData = [[NSData alloc] initWithContentsOfURL:url];
             UIImage *image = [[UIImage alloc] initWithData:imageData];
             
+            //crop the image
             CGImageRef cgImage = CGImageCreateWithImageInRect(image.CGImage, CGRectMake(0, 0, image.size.width, image.size.height / 2)); 
 
+            //replace UIImage for placeholder image
             UIImage *imageToInsertInAr = [UIImage imageWithCGImage:cgImage];
             [self.user.wavformImagesAr replaceObjectAtIndex:indexPath.row withObject:imageToInsertInAr];            
             
+            //take image from array to ensure it's the correct one for this row
             iv.image = [self.user.wavformImagesAr objectAtIndex:indexPath.row];
            
             [iv setBackgroundColor:[UIColor blueColor]];
@@ -285,15 +294,15 @@ enum cellSubviewTags {
             [(SFCustomTableViewCell*)cell setShouldResetBgColour:NO];
             
             [iv performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
-                    
-//            NSLog(@"downloaded image for cell at row: %d",indexPath.row);
-            
+                                
         });
         
+        //placeholder image while image is downloading 
         iv.image = [UIImage imageNamed:@"loading_wav"];
     }
     else
     {
+        //set the correct image for this row
         iv.image = [self.user.wavformImagesAr objectAtIndex:indexPath.row];        
     }
         
@@ -342,18 +351,19 @@ enum cellSubviewTags {
 
 #pragma mark - Table view delegate
 
+//play the track on soundcloud app or online
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSURL *theURL = [NSURL URLWithString:[NSString stringWithFormat:@"soundcloud:track:%@",[self.user.favTrackIDAr objectAtIndex:indexPath.row]]]; 
+    NSURL *scURL = [NSURL URLWithString:[NSString stringWithFormat:@"soundcloud:track:%@",[self.user.favTrackIDAr objectAtIndex:indexPath.row]]]; 
                      
-    if([[UIApplication sharedApplication]canOpenURL:theURL])
+    if([[UIApplication sharedApplication]canOpenURL:scURL])
     {
-        [[UIApplication sharedApplication] openURL:theURL];
+        [[UIApplication sharedApplication] openURL:scURL];
     }
     else
     {
-        NSURL *theURL = [NSURL URLWithString:[self.user.favTrackURIsAr objectAtIndex:indexPath.row]]; 
-        [[UIApplication sharedApplication] openURL:theURL];
+        NSURL *onlineURL = [NSURL URLWithString:[self.user.favTrackURIsAr objectAtIndex:indexPath.row]]; 
+        [[UIApplication sharedApplication] openURL:onlineURL];
     }
 }
 

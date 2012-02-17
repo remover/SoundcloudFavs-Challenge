@@ -25,14 +25,13 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 - (void)prepareForReuse
 {
     [super prepareForReuse];
     
+    //reset bg colour for re-used cells
     if(self.shouldResetBgColour)
     {
         for (id view in self.contentView.subviews) {

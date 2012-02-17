@@ -12,10 +12,14 @@
 
 @interface SFFeedsTVC : UITableViewController <UIAlertViewDelegate>
 
+//array for JSON response to requests
 @property (nonatomic, strong) id responseJKArray;
+//user details: favorites titles etc.
 @property (nonatomic, weak) SFUser *user;
+//table view cell lab and image view
 @property (nonatomic, weak) UILabel *titleLab;
 @property (nonatomic, weak) UIImageView *wavImageView;
+
 @property (nonatomic, assign) NSInteger highestRowLoaded;
 @property (nonatomic, weak) SFAppDelegate *delegate;
 @property (nonatomic, assign) BOOL hasLastRowBeenReached;

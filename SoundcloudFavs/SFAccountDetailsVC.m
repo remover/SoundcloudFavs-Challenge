@@ -31,27 +31,27 @@
     
     // Release any cached data, images, etc that aren't in use.
 }
+
 - (IBAction)logInOrOut:(id)sender 
 {
-    id vc = [self.tabBarController.viewControllers objectAtIndex:0];
+    id tvc = [self.tabBarController.viewControllers objectAtIndex:0];
     
     if([SCSoundCloud account] == nil)
     {
-        if ([vc respondsToSelector:@selector(login)])    
-             [vc login];       
+        if ([tvc respondsToSelector:@selector(login)])    
+             [tvc login];       
     }
+    // log out
     else
     {
         [SCSoundCloud removeAccess];
         
         [[SFUser sharedUserObj]purgeUserData];
         
-        SFFeedsTVC *feeds = [self.storyboard instantiateViewControllerWithIdentifier:@"tableViewController"];
-                
-        NSArray *arr = [NSArray arrayWithObjects:feeds, self, nil];
-        
+        //remove user data from tv
+        SFFeedsTVC *feeds = [self.storyboard instantiateViewControllerWithIdentifier:@"tableViewController"];                
+        NSArray *arr = [NSArray arrayWithObjects:feeds, self, nil];        
         self.tabBarController.viewControllers = arr;
-
     }
 }
 
@@ -70,9 +70,6 @@
             [self.loginAndOutButton setTitle:@"Log in" forState:UIControlStateNormal];
         }
     }
-    
-    [self.view setNeedsDisplay];
-    
 }
 
 
@@ -94,6 +91,7 @@
 
 -(void)awakeFromNib
 {    
+    //update UI when userName property changes
     [[SFUser sharedUserObj] addObserver:self forKeyPath:@"userName" options:NSKeyValueObservingOptionNew context:nil];
 }
 
