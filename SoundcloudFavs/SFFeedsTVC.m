@@ -54,22 +54,54 @@ enum cellSubviewTags {
                                                                           } else {
                                                                               NSLog(@"Done!");
                                                                               
+                                                                              [self makeUserNameRequest];
+                                                                              
                                                                               [self getFavourites];
                                                                           }
                                                                       }];
         
         [self presentModalViewController:loginViewController
-                                animated:NO];
+                                animated:YES];
         
     }];
 }
 
+-(void)makeUserNameRequest
+{
+    NSLog(@"makeUserNameRequest");
+    
+    NSString *urlStr = @"https://api.soundcloud.com/me.json?";
+    
+    SCAccount *account = [SCSoundCloud account];
+    
+    id obj = [SCRequest performMethod:SCRequestMethodGET
+                           onResource:[NSURL URLWithString:urlStr]
+                      usingParameters:nil
+                          withAccount:account
+               sendingProgressHandler:nil
+                      responseHandler:^(NSURLResponse *response, NSData *data, NSError *error){
+                          // Handle the response
+                          if (error) {
+                              NSLog(@"Ooops, something went wrong: %@", [error localizedDescription]);
+                              
+                              NSLog(@"response url: %@", response.URL);
+                              
+                          } else {
+                              
+                              responseJKArray = [[JSONDecoder decoder]parseJSONData:data];
+                              
+                              NSLog(@"makeUserNameRequest response: %@", responseJKArray);
+                              
+                              [self createArraysForTableView];
+                              
+                          }
+                      }];
+    
+}
+
 -(void)getFavourites
 {
-    
-//    NSString *userIDStr = [[NSNumber numberWithInt:userID] stringValue];
-    
-//    NSString *urlStr = [NSString stringWithFormat: @"https://api.soundcloud.com/users/%@/favorites.json?client_id=%@", userIDStr, delegate.clientID];
+    NSLog(@"getFavourites");
     
     NSString *urlStr = @"https://api.soundcloud.com/me/favorites.json?";
     
@@ -121,9 +153,26 @@ enum cellSubviewTags {
         [self.user.wavformImagesAr addObject:placeholder];
     }
     
-    [self.tableView reloadData];    
+    [self.tableView reloadData]; 
 }
 
+
+-(void)setupUser
+{
+    user = [[SFUser alloc] init];                    
+    
+    self.user.favTitlesAr = [NSMutableArray arrayWithCapacity:1];
+    self.user.favWavformURLAr = [NSMutableArray arrayWithCapacity:1];
+    self.user.favTrackIDAr = [NSMutableArray arrayWithCapacity:1];
+}
+
+
+-(void)setHighestRowLoaded:(NSInteger)newVal
+{
+    if (newVal > highestRowLoaded)
+        highestRowLoaded = newVal;
+    
+}
 
 #pragma mark - View lifecycle
 
@@ -141,11 +190,13 @@ enum cellSubviewTags {
     
     self.tableView.rowHeight = 70;
     
-    user = [[SFUser alloc] init];                    
+    [self setupUser];
     
-    user.favTitlesAr = [NSMutableArray arrayWithCapacity:1];
-    user.favWavformURLAr = [NSMutableArray arrayWithCapacity:1];
-    user.favTrackIDAr = [NSMutableArray arrayWithCapacity:1];
+//    user = [[SFUser alloc] init];                    
+//    
+//    self.user.favTitlesAr = [NSMutableArray arrayWithCapacity:1];
+//    self.user.favWavformURLAr = [NSMutableArray arrayWithCapacity:1];
+//    self.user.favTrackIDAr = [NSMutableArray arrayWithCapacity:1];
 }
 
 - (void)viewDidUnload
@@ -168,12 +219,19 @@ enum cellSubviewTags {
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-
+    
     if([SCSoundCloud account] == nil)
-        [self login];
-    else
-        [self getFavourites];
+    {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"Log in to see your favorites!" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"OK", nil];
+        
+        [alert show];
+    }
+
+//        [self login];
+//    else
+//        [self getFavourites];
 }
+
 
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -205,7 +263,7 @@ enum cellSubviewTags {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NSLog(@"asking for cell at row: %d",indexPath.row);
+    NSLog(@"asking for cell at row: %d",indexPath.row);
 
     static NSString *CellIdentifier = @"Cell";
     
@@ -221,7 +279,7 @@ enum cellSubviewTags {
     
     self.highestRowLoaded = indexPath.row;
         
-    if (indexPath.row >= self.highestRowLoaded && self.user != nil && !hasLastRowBeenReached)
+    if (indexPath.row >= self.highestRowLoaded && !hasLastRowBeenReached)
     { 
         if(indexPath.row == [self.user.favTitlesAr count] - 1)
             hasLastRowBeenReached = YES;
@@ -247,7 +305,7 @@ enum cellSubviewTags {
             
             [iv performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
                     
-//            NSLog(@"downloaded image for cell at row: %d",indexPath.row);
+            NSLog(@"downloaded image for cell at row: %d",indexPath.row);
             
         });
         
@@ -259,14 +317,6 @@ enum cellSubviewTags {
     }
         
     return cell;
-}
-
-
--(void)setHighestRowLoaded:(NSInteger)newVal
-{
-    if (newVal > highestRowLoaded)
-        highestRowLoaded = newVal;
-    
 }
 
 
@@ -323,7 +373,14 @@ enum cellSubviewTags {
     
 }
 
+#pragma mark - UIAlertViewDelegate
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex == 1)
+        [self login];
+    
+}
 
 
 

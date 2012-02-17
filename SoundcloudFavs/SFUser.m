@@ -10,6 +10,6 @@
 
 @implementation SFUser
 
-@synthesize favTitlesAr, favWavformURLAr, wavformImagesAr, favTrackIDAr;
+@synthesize favTitlesAr, favWavformURLAr, wavformImagesAr, favTrackIDAr, userName;
 
 @end

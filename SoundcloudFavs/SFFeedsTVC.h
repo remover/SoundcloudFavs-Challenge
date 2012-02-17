@@ -10,7 +10,7 @@
 
 @class SFAppDelegate, SFUser;
 
-@interface SFFeedsTVC : UITableViewController
+@interface SFFeedsTVC : UITableViewController <UIAlertViewDelegate>
 
 @property (nonatomic, strong) id responseJKArray;
 @property (nonatomic, strong) SFUser *user;
@@ -24,7 +24,8 @@
 -(void)getFavourites;
 -(void)createArraysForTableView;
 -(void)setHighestRowLoaded:(NSInteger)newVal;
-
+-(void)setupUser;
+-(void)makeUserNameRequest;
 
 
 @end
