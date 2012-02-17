@@ -10,7 +10,7 @@
 
 @interface SFUser : NSObject
 
-@property (nonatomic, strong) NSMutableArray *favTitlesAr, *favWavformURLAr,  *wavformImagesAr, *favTrackIDAr;
+@property (nonatomic, strong) NSMutableArray *favTitlesAr, *favWavformURLAr,  *wavformImagesAr, *favTrackIDAr, *favTrackURIsAr;
 @property (nonatomic, strong) NSString *userName;
 
 + (SFUser *)sharedUserObj;

@@ -37,7 +37,7 @@
     
     if([SCSoundCloud account] == nil)
     {
-        if ([vc respondsToSelector:@selector(logIn)])    
+        if ([vc respondsToSelector:@selector(login)])    
              [vc login];       
     }
     else
@@ -51,8 +51,30 @@
         NSArray *arr = [NSArray arrayWithObjects:feeds, self, nil];
         
         self.tabBarController.viewControllers = arr;
+
     }
 }
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if([keyPath isEqualToString:@"userName"])
+    {
+        if([SFUser sharedUserObj].userName)
+        {            
+            self.statusLabel.text = [NSString stringWithFormat:@"You are logged in as: %@", [SFUser sharedUserObj].userName];
+            [self.loginAndOutButton setTitle:@"Log out" forState:UIControlStateNormal];
+        }
+        else
+        {            
+            self.statusLabel.text = @"You are logged out";
+            [self.loginAndOutButton setTitle:@"Log in" forState:UIControlStateNormal];
+        }
+    }
+    
+    [self.view setNeedsDisplay];
+    
+}
+
 
 #pragma mark - View lifecycle
 
@@ -68,6 +90,30 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+}
+
+-(void)awakeFromNib
+{    
+    [[SFUser sharedUserObj] addObserver:self forKeyPath:@"userName" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    if([SFUser sharedUserObj].userName)
+    {        
+        self.statusLabel.text = [NSString stringWithFormat:@"You are logged in as: %@", [SFUser sharedUserObj].userName];
+    }
+    else
+    {        
+        self.statusLabel.text = @"You are logged out";
+    }
+    
+    if([SCSoundCloud account] == nil)
+        [self.loginAndOutButton setTitle:@"Log in" forState:UIControlStateNormal];
+    else
+        [self.loginAndOutButton setTitle:@"Log out" forState:UIControlStateNormal];
+            
 }
 
 

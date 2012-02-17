@@ -90,7 +90,7 @@ enum cellSubviewTags {
                               
                               responseJKArray = [[JSONDecoder decoder]parseJSONData:data];
                               
-                              NSLog(@"makeUserNameRequest response: %@", responseJKArray);
+                              self.user = [SFUser sharedUserObj];
                               
                               self.user.userName = [responseJKArray objectForKey:@"username"];
                               
@@ -124,7 +124,7 @@ enum cellSubviewTags {
                               
                               responseJKArray = [[JSONDecoder decoder]parseJSONData:data];
                               
-                              NSLog(@"favourites: %@", responseJKArray);
+//                              NSLog(@"favourites: %@", responseJKArray);
                               
                               [self createArraysForTableView];
                              
@@ -143,6 +143,7 @@ enum cellSubviewTags {
         [self.user.favTitlesAr addObject:[dict objectForKey:@"title"]];
         [self.user.favWavformURLAr addObject:[dict objectForKey:@"waveform_url"]];
         [self.user.favTrackIDAr addObject:[dict objectForKey:@"id"]];
+        [self.user.favTrackURIsAr addObject:[dict objectForKey:@"uri"]];
     }
     
         
@@ -204,6 +205,12 @@ enum cellSubviewTags {
         
         [alert show];
     }
+    else
+    {
+        [self makeUserNameRequest];
+        
+        [self getFavourites];
+    }
 }
 
 
@@ -237,7 +244,7 @@ enum cellSubviewTags {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"asking for cell at row: %d",indexPath.row);
+//    NSLog(@"asking for cell at row: %d",indexPath.row);
 
     static NSString *CellIdentifier = @"Cell";
     
@@ -279,7 +286,7 @@ enum cellSubviewTags {
             
             [iv performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
                     
-            NSLog(@"downloaded image for cell at row: %d",indexPath.row);
+//            NSLog(@"downloaded image for cell at row: %d",indexPath.row);
             
         });
         
@@ -337,14 +344,17 @@ enum cellSubviewTags {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    
-    UILabel *lab = (UILabel*)[cell viewWithTag:1];
-    UIImageView *iv = (UIImageView*)[cell viewWithTag:2];
-    
-    NSLog(@"lab frame: %@", NSStringFromCGRect(lab.frame));
-    NSLog(@"iv frame: %@", NSStringFromCGRect(iv.frame));
-    
+    NSURL *theURL = [NSURL URLWithString:[NSString stringWithFormat:@"soundcloud:track:%@",[self.user.favTrackIDAr objectAtIndex:indexPath.row]]]; 
+                     
+    if([[UIApplication sharedApplication]canOpenURL:theURL])
+    {
+        [[UIApplication sharedApplication] openURL:theURL];
+    }
+    else
+    {
+        NSURL *theURL = [NSURL URLWithString:[self.user.favTrackURIsAr objectAtIndex:indexPath.row]]; 
+        [[UIApplication sharedApplication] openURL:theURL];
+    }
 }
 
 #pragma mark - UIAlertViewDelegate
