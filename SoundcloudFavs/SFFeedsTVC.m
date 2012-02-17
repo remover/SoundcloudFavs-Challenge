@@ -12,6 +12,7 @@
 #import "SFAppDelegate.h"
 #import "SFUser.h"
 #import "SFCustomTableViewCell.h"
+#import <QuartzCore/CALayer.h>
 
 enum cellSubviewTags {
     kCellSubViewTitleLabel = 1,
@@ -145,7 +146,7 @@ enum cellSubviewTags {
         [self.user.favTitlesAr addObject:[dict objectForKey:@"title"]];
         [self.user.favWavformURLAr addObject:[dict objectForKey:@"waveform_url"]];
         [self.user.favTrackIDAr addObject:[dict objectForKey:@"id"]];
-        [self.user.favTrackURIsAr addObject:[dict objectForKey:@"uri"]];
+        [self.user.favTrackURIsAr addObject:[dict objectForKey:@"permalink_url"]];
     }
     
     //create placeholders for wavformImagesAr so we can use replaceObjectAtIndex on async callbacks from cellForRowAtIndexPath    
@@ -257,15 +258,13 @@ enum cellSubviewTags {
     }
     
     UILabel *lab = (UILabel*)[cell viewWithTag:kCellSubViewTitleLabel];
-    UIImageView *iv = (UIImageView*)[cell viewWithTag:kCellSubViewWavImageView];
-
     lab.text = [self.user.favTitlesAr objectAtIndex:indexPath.row];    
-    
+    UIImageView *iv = (UIImageView*)[cell viewWithTag:kCellSubViewWavImageView];;
     self.highestRowLoaded = indexPath.row;
         
     //only download images once
     if (indexPath.row >= self.highestRowLoaded && !hasLastRowBeenReached)
-    { 
+    {         
         //ensure last row doesn't cause image download
         if(indexPath.row == [self.user.favTitlesAr count] - 1)
             hasLastRowBeenReached = YES;
@@ -276,6 +275,7 @@ enum cellSubviewTags {
         dispatch_async(queue, ^{
         
             NSURL *url = [[NSURL alloc] initWithString:[self.user.favWavformURLAr objectAtIndex:indexPath.row]];
+            NSLog(@"background");
             NSData *imageData = [[NSData alloc] initWithContentsOfURL:url];
             UIImage *image = [[UIImage alloc] initWithData:imageData];
             
@@ -285,20 +285,23 @@ enum cellSubviewTags {
             //replace UIImage for placeholder image
             UIImage *imageToInsertInAr = [UIImage imageWithCGImage:cgImage];
             [self.user.wavformImagesAr replaceObjectAtIndex:indexPath.row withObject:imageToInsertInAr];            
-            
-            //take image from array to ensure it's the correct one for this row
-            iv.image = [self.user.wavformImagesAr objectAtIndex:indexPath.row];
            
-            [iv setBackgroundColor:[UIColor blueColor]];
+            [iv setBackgroundColor:[UIColor colorWithRed:251.0f/256.0 green:94.0f/256.0f blue:38.0f/256.0f alpha:1.0f]];
                         
             [(SFCustomTableViewCell*)cell setShouldResetBgColour:NO];
             
-            [iv performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+            dispatch_queue_t main_queue = dispatch_get_main_queue();
+            dispatch_async(main_queue, ^{
+                NSLog(@"main thread");
+                //take image from array to ensure it's the correct one for this row
+                iv.image = [self.user.wavformImagesAr objectAtIndex:indexPath.row];
+//                [iv setNeedsDisplay];
+            });
                                 
         });
         
         //placeholder image while image is downloading 
-        iv.image = [UIImage imageNamed:@"loading_wav"];
+        iv.image = [UIImage imageNamed:@"loading_wav2"];
     }
     else
     {

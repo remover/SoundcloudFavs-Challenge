@@ -39,15 +39,16 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" minimumFontSize="10" id="f53-bj-em5">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="34"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="qwertyuiopasdfghjk;zxcvbnm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" minimumFontSize="10" id="f53-bj-em5">
+                                            <rect key="frame" x="0.0" y="-3" width="320" height="46"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <fontDescription key="fontDescription" name="Zapfino" family="Zapfino" pointSize="11"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" id="cPo-jn-e4m">
-                                            <rect key="frame" x="0.0" y="35" width="320" height="35"/>
+                                            <rect key="frame" x="0.0" y="40" width="320" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                     </subviews>
@@ -60,7 +61,7 @@
                             <outlet property="delegate" destination="bCz-Bt-pDU" id="WAy-lA-Pyi"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Favourites" id="1Pm-tF-3zZ"/>
+                    <tabBarItem key="tabBarItem" title="Favorites" image="favs.png" id="1Pm-tF-3zZ"/>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="519" y="105"/>
@@ -98,7 +99,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Account" id="xeO-74-ODB"/>
+                    <tabBarItem key="tabBarItem" title="Account" image="account.png" id="xeO-74-ODB"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="loginAndOutButton" destination="BII-RM-9ju" id="l9w-bs-p5n"/>
@@ -109,6 +110,10 @@
             <point key="canvasLocation" x="497" y="727"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="account.png" width="20" height="24"/>
+        <image name="favs.png" width="26" height="26"/>
+    </resources>
     <classes>
         <class className="SFAccountDetailsVC" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SFAccountDetailsVC.h"/>
