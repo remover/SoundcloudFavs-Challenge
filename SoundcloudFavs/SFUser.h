@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 //singleton class representing the current users data
-
 @interface SFUser : NSObject
 
 @property (nonatomic, strong) NSMutableArray *favTitlesAr, *favWavformURLAr,  *wavformImagesAr, *favTrackIDAr, *favTrackURIsAr;

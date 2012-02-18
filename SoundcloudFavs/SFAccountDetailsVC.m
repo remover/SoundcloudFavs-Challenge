@@ -11,9 +11,15 @@
 #import "SCAPI.h"
 #import "SFUser.h"
 
+//private category
+@interface SFAccountDetailsVC ()
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+@property (weak, nonatomic) IBOutlet UIButton *loginAndOutButton;
+@end
+
+
 @implementation SFAccountDetailsVC
-@synthesize statusLabel;
-@synthesize loginAndOutButton;
+@synthesize statusLabel, loginAndOutButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -57,17 +63,21 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if([keyPath isEqualToString:@"userName"])
+    //force loading of view so interface can be updated even when not displayed
+    if(self.view)
     {
-        if([SFUser sharedUserObj].userName)
-        {            
-            self.statusLabel.text = [NSString stringWithFormat:@"You are logged in as: %@", [SFUser sharedUserObj].userName];
-            [self.loginAndOutButton setTitle:@"Log out" forState:UIControlStateNormal];
-        }
-        else
-        {            
-            self.statusLabel.text = @"You are logged out";
-            [self.loginAndOutButton setTitle:@"Log in" forState:UIControlStateNormal];
+        if([keyPath isEqualToString:@"userName"])
+        {
+            if([SFUser sharedUserObj].userName)
+            {            
+                self.statusLabel.text = [NSString stringWithFormat:@"Logged in: %@", [SFUser sharedUserObj].userName];
+                [self.loginAndOutButton setTitle:@"Log out" forState:UIControlStateNormal];
+            }
+            else
+            {            
+                self.statusLabel.text = @"You are logged out";
+                [self.loginAndOutButton setTitle:@"Log in" forState:UIControlStateNormal];
+            }
         }
     }
 }
@@ -94,26 +104,6 @@
     //update UI when userName property changes
     [[SFUser sharedUserObj] addObserver:self forKeyPath:@"userName" options:NSKeyValueObservingOptionNew context:nil];
 }
-
-
--(void)viewWillAppear:(BOOL)animated
-{
-    if([SFUser sharedUserObj].userName)
-    {        
-        self.statusLabel.text = [NSString stringWithFormat:@"You are logged in as: %@", [SFUser sharedUserObj].userName];
-    }
-    else
-    {        
-        self.statusLabel.text = @"You are logged out";
-    }
-    
-    if([SCSoundCloud account] == nil)
-        [self.loginAndOutButton setTitle:@"Log in" forState:UIControlStateNormal];
-    else
-        [self.loginAndOutButton setTitle:@"Log out" forState:UIControlStateNormal];
-            
-}
-
 
 - (void)viewDidUnload
 {

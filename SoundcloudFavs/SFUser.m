@@ -32,16 +32,6 @@
     return sharedInstance;
 }
 
--(void)setUserName:(NSString *)newUserName
-{
-    if(![newUserName isEqualToString:userName])
-    {
-        userName = newUserName;
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"userName changed" object:self];
-    }
-}
-
 - (void)purgeUserData
 {
     SFUser *sharedInstance = [SFUser sharedUserObj];

@@ -7,7 +7,6 @@
 //
 
 #import "SFAppDelegate.h"
-#import "SCUI.h"
 #import "SCAPI.h"
 
 NSString *kClientID = @"9089b0b73fd02458609874d04a1cdeda";
@@ -30,6 +29,7 @@ NSString *kRedirectURLStr = @"soundcloudfavs://soundcloud";
 
 + (void)initialize;
 {
+    //force login each time app launches
     [SCSoundCloud removeAccess];
 
     [SCSoundCloud  setClientID:kClientID

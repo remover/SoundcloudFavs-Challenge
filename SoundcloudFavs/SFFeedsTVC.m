@@ -12,16 +12,41 @@
 #import "SFAppDelegate.h"
 #import "SFUser.h"
 #import "SFCustomTableViewCell.h"
-#import <QuartzCore/CALayer.h>
 
 enum cellSubviewTags {
     kCellSubViewTitleLabel = 1,
     kCellSubViewWavImageView
     };
 
+
+//private category
+@interface SFFeedsTVC ()
+
+//array for JSON response to requests
+@property (nonatomic, weak) id responseJKArray;
+//user details: favorites titles etc.
+@property (nonatomic, weak) SFUser *user;
+//table view cell lab and image view
+@property (nonatomic, weak) UILabel *titleLab;
+@property (nonatomic, weak) UIImageView *wavImageView;
+
+@property (nonatomic, assign) NSInteger highestRowLoaded;
+@property (nonatomic, weak) SFAppDelegate *delegate;
+@property (nonatomic, assign) BOOL hasLastRowBeenReached;
+@property (strong, nonatomic) IBOutlet UIView *noFavsView;
+
+-(void)doUserNameRequest;
+-(void)doFavouritesRequest;
+-(void)setupUserArraysForTableView;
+-(void)setHighestRowLoaded:(NSInteger)newVal;
+
+@end
+
+
+
 @implementation SFFeedsTVC
 
-@synthesize responseJKArray, titleLab, wavImageView, highestRowLoaded, delegate, user, hasLastRowBeenReached;
+@synthesize responseJKArray, titleLab, wavImageView, highestRowLoaded, delegate, user, hasLastRowBeenReached, noFavsView;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -50,120 +75,87 @@ enum cellSubviewTags {
                                                                       completionHandler:^(NSError *error){
                                                                           
                                                                           if (SC_CANCELED(error)) {
-                                                                              NSLog(@"Canceled!");
+
                                                                           } else if (error) {
-                                                                              NSLog(@"Ooops, something went wrong: %@", [error localizedDescription]);
+                                                                              UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil 
+                                                                                                                             message:@"Oops... Couldn't log you in. Please try again later." 
+                                                                                                                            delegate:nil 
+                                                                                                                   cancelButtonTitle:nil 
+                                                                                                                   otherButtonTitles:@"OK", nil];
+                                                                              [alert show];
+
                                                                           } else {
-                                                                              NSLog(@"Done!");
                                                                               
-                                                                              [self makeUserNameRequest];
+                                                                              [self doUserNameRequest];
                                                                               
-                                                                              [self getFavourites];
+                                                                              [self doFavouritesRequest];
                                                                           }
                                                                       }];
         
-        [self presentModalViewController:loginViewController
-                                animated:YES];
+        [self presentModalViewController:loginViewController animated:YES];
         
     }];
 }
 
 //get user name for user
--(void)makeUserNameRequest
-{
-    NSLog(@"makeUserNameRequest");
-    
+-(void)doUserNameRequest
+{    
     NSString *urlStr = @"https://api.soundcloud.com/me.json?";
     
     SCAccount *account = [SCSoundCloud account];
     
-    id obj = [SCRequest performMethod:SCRequestMethodGET
-                           onResource:[NSURL URLWithString:urlStr]
-                      usingParameters:nil
-                          withAccount:account
-               sendingProgressHandler:nil
-                      responseHandler:^(NSURLResponse *response, NSData *data, NSError *error){
-                          // Handle the response
-                          if (error) {
-                              NSLog(@"Ooops, something went wrong: %@", [error localizedDescription]);
-                              
-                              NSLog(@"response url: %@", response.URL);
-                              
-                          } else {
-                              
-                              responseJKArray = [[JSONDecoder decoder]parseJSONData:data];
-                              
-                              self.user = [SFUser sharedUserObj];
-                              
-                              self.user.userName = [responseJKArray objectForKey:@"username"];
-                              
-                          }
-                      }];
+    [SCRequest performMethod:SCRequestMethodGET
+                  onResource:[NSURL URLWithString:urlStr]
+             usingParameters:nil
+                 withAccount:account
+      sendingProgressHandler:nil
+             responseHandler:^(NSURLResponse *response, NSData *data, NSError *error){
+                 // Handle the response
+                 if (error) {
+                 } else {
+                     
+                     responseJKArray = [[JSONDecoder decoder]parseJSONData:data];
+                     
+                     self.user = [SFUser sharedUserObj];
+                     
+                     self.user.userName = [responseJKArray objectForKey:@"username"];
+                     
+                 }
+             }];
     
 }
 
 //get favourites data
--(void)getFavourites
-{
-    NSLog(@"getFavourites");
-    
+-(void)doFavouritesRequest
+{    
     NSString *urlStr = @"https://api.soundcloud.com/me/favorites.json?";
     
     SCAccount *account = [SCSoundCloud account];
 
-    id obj = [SCRequest performMethod:SCRequestMethodGET
-                           onResource:[NSURL URLWithString:urlStr]
-                      usingParameters:nil
-                          withAccount:account
-               sendingProgressHandler:nil
-                      responseHandler:^(NSURLResponse *response, NSData *data, NSError *error){
-                          // Handle the response
-                          if (error) {
-                              NSLog(@"Ooops, something went wrong: %@", [error localizedDescription]);
-                              
-                              NSLog(@"response url: %@", response.URL);
-                              
-                          } else {
-                              
-                              responseJKArray = [[JSONDecoder decoder]parseJSONData:data];
-                                                            
-                              [self createArraysForTableView];
-                             
-                          }
-                      }];
-    
-}
+    [SCRequest performMethod:SCRequestMethodGET
+                  onResource:[NSURL URLWithString:urlStr]
+             usingParameters:nil
+                 withAccount:account
+      sendingProgressHandler:nil
+             responseHandler:^(NSURLResponse *response, NSData *data, NSError *error){
+                 // Handle the response
+                 if (error) {
+                     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil 
+                                                                    message:@"Oops... Something went wrong. Please try again later." 
+                                                                   delegate:nil 
+                                                          cancelButtonTitle:nil 
+                                                          otherButtonTitles:@"OK", nil];
+                     [alert show];                                          
 
-#pragma mark - datasource helper methods
-
--(void)createArraysForTableView
-{
-    //set up user arrays for table view
-    for (int i = 0; i < [responseJKArray count]; i++)
-    {
-        NSDictionary *dict = [responseJKArray objectAtIndex:i];
-        
-        [self.user.favTitlesAr addObject:[dict objectForKey:@"title"]];
-        [self.user.favWavformURLAr addObject:[dict objectForKey:@"waveform_url"]];
-        [self.user.favTrackIDAr addObject:[dict objectForKey:@"id"]];
-        [self.user.favTrackURIsAr addObject:[dict objectForKey:@"permalink_url"]];
-    }
-    
-    //create placeholders for wavformImagesAr so we can use replaceObjectAtIndex on async callbacks from cellForRowAtIndexPath    
-    for (id obj in self.user.favTitlesAr)
-    {
-        UIImage *placeholder = [[UIImage alloc]init];
-        [self.user.wavformImagesAr addObject:placeholder];
-    }
-    
-    [self.tableView reloadData]; 
-}
-
-
--(void)setHighestRowLoaded:(NSInteger)newVal
-{
-    if (newVal > highestRowLoaded)
-        highestRowLoaded = newVal;
+                     
+                 } else {
+                     
+                     responseJKArray = [[JSONDecoder decoder]parseJSONData:data];
+                     
+                     [self setupUserArraysForTableView];
+                     
+                 }
+             }];
     
 }
 
@@ -185,12 +177,11 @@ enum cellSubviewTags {
 {
     [super viewDidUnload];
     
+    [self setNoFavsView:nil];
+    
     titleLab = nil;
     
     wavImageView = nil;
-
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -209,13 +200,6 @@ enum cellSubviewTags {
         
         [alert show];
     }
-// for debugging
-//    else
-//    {
-//        [self makeUserNameRequest];
-//        
-//        [self getFavourites];
-//    }
 }
 
 
@@ -258,8 +242,13 @@ enum cellSubviewTags {
     }
     
     UILabel *lab = (UILabel*)[cell viewWithTag:kCellSubViewTitleLabel];
-    lab.text = [self.user.favTitlesAr objectAtIndex:indexPath.row];    
+    
+    //prevent crash for NSNull objects returned in JSON data
+    if(![[self.user.favTitlesAr objectAtIndex:indexPath.row]isMemberOfClass:[NSNull class]])
+        lab.text = [self.user.favTitlesAr objectAtIndex:indexPath.row];
+    
     UIImageView *iv = (UIImageView*)[cell viewWithTag:kCellSubViewWavImageView];;
+    
     self.highestRowLoaded = indexPath.row;
         
     //only download images once
@@ -274,7 +263,11 @@ enum cellSubviewTags {
         dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         dispatch_async(queue, ^{
         
-            NSURL *url = [[NSURL alloc] initWithString:[self.user.favWavformURLAr objectAtIndex:indexPath.row]];
+            //prevent crash for NSNull objects returned in JSON data
+            NSURL *url = nil;
+            if(![[self.user.favWavformURLAr objectAtIndex:indexPath.row]isMemberOfClass:[NSNull class]])
+               url = [[NSURL alloc] initWithString:[self.user.favWavformURLAr objectAtIndex:indexPath.row]];
+
             NSLog(@"background");
             NSData *imageData = [[NSData alloc] initWithContentsOfURL:url];
             UIImage *image = [[UIImage alloc] initWithData:imageData];
@@ -295,7 +288,6 @@ enum cellSubviewTags {
                 NSLog(@"main thread");
                 //take image from array to ensure it's the correct one for this row
                 iv.image = [self.user.wavformImagesAr objectAtIndex:indexPath.row];
-//                [iv setNeedsDisplay];
             });
                                 
         });
@@ -312,45 +304,44 @@ enum cellSubviewTags {
     return cell;
 }
 
+#pragma mark - datasource helper methods
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)setupUserArraysForTableView
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+    //set up user arrays for table view
+    for (int i = 0; i < [responseJKArray count]; i++)
+    {
+        NSDictionary *dict = [responseJKArray objectAtIndex:i];
+        
+        [self.user.favTitlesAr addObject:[dict objectForKey:@"title"]];//title
+        [self.user.favWavformURLAr addObject:[dict objectForKey:@"waveform_url"]];//waveform_url
+        [self.user.favTrackIDAr addObject:[dict objectForKey:@"id"]];//id
+        [self.user.favTrackURIsAr addObject:[dict objectForKey:@"permalink_url"]];//permalink_url
+    }
+    
+    //create placeholders for wavformImagesAr so we can use replaceObjectAtIndex on async callbacks from cellForRowAtIndexPath    
+    for (id obj in self.user.favTitlesAr)
+    {
+        UIImage *placeholder = [[UIImage alloc]init];
+        [self.user.wavformImagesAr addObject:placeholder];
+    }
+    
+    [self.tableView reloadData]; 
+    
+    //show 'no favs view' if the user has no favs
+    if(responseJKArray ==  nil)
+    {
+        [[NSBundle mainBundle] loadNibNamed:@"NoFavsView" owner:self options:nil];
+        [self.tableView addSubview:noFavsView];
+    }
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+-(void)setHighestRowLoaded:(NSInteger)newVal
 {
+    if (newVal > highestRowLoaded)
+        highestRowLoaded = newVal;    
 }
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 
@@ -365,8 +356,19 @@ enum cellSubviewTags {
     }
     else
     {
-        NSURL *onlineURL = [NSURL URLWithString:[self.user.favTrackURIsAr objectAtIndex:indexPath.row]]; 
-        [[UIApplication sharedApplication] openURL:onlineURL];
+        //prevent crash for NSNull objects returned in JSON data
+        NSURL *onlineURL = nil;
+        if(![[self.user.favTrackURIsAr objectAtIndex:indexPath.row]isMemberOfClass:[NSNull class]])
+        {
+            onlineURL = [NSURL URLWithString:[self.user.favTrackURIsAr objectAtIndex:indexPath.row]];       
+            [[UIApplication sharedApplication] openURL:onlineURL];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Sorry, can't play that track" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            [alert show];
+        }
+            
     }
 }
 
@@ -374,6 +376,7 @@ enum cellSubviewTags {
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    //user wants to log in
     if(buttonIndex == 1)
         [self login];
     
