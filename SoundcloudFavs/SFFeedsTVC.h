@@ -10,7 +10,7 @@
 
 @class SFAppDelegate, SFUser;
 
-@interface SFFeedsTVC : UITableViewController <UIAlertViewDelegate>
+@interface SFFeedsTVC : UITableViewController <UIAlertViewDelegate, UITabBarControllerDelegate>
 
 -(void)login;
 

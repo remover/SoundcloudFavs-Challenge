@@ -54,6 +54,8 @@
         
         [[SFUser sharedUserObj]purgeUserData];
         
+        self.tabBarController.delegate = nil;
+        
         //remove user data from tv
         SFFeedsTVC *feeds = [self.storyboard instantiateViewControllerWithIdentifier:@"tableViewController"];                
         NSArray *arr = [NSArray arrayWithObjects:feeds, self, nil];        

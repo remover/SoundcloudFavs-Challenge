@@ -33,7 +33,8 @@ enum cellSubviewTags {
 @property (nonatomic, assign) NSInteger highestRowLoaded;
 @property (nonatomic, weak) SFAppDelegate *delegate;
 @property (nonatomic, assign) BOOL hasLastRowBeenReached;
-@property (strong, nonatomic) IBOutlet UIView *noFavsView;
+@property (nonatomic, assign) BOOL shouldShowLoginAlert;
+@property (strong, nonatomic) IBOutlet UIView *noFavsView; 
 
 -(void)doUserNameRequest;
 -(void)doFavouritesRequest;
@@ -46,7 +47,7 @@ enum cellSubviewTags {
 
 @implementation SFFeedsTVC
 
-@synthesize responseJKArray, titleLab, wavImageView, highestRowLoaded, delegate, user, hasLastRowBeenReached, noFavsView;
+@synthesize responseJKArray, titleLab, wavImageView, highestRowLoaded, delegate, user, hasLastRowBeenReached, shouldShowLoginAlert, noFavsView;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -75,8 +76,12 @@ enum cellSubviewTags {
                                                                       completionHandler:^(NSError *error){
                                                                           
                                                                           if (SC_CANCELED(error)) {
+                                                                              if(self.tabBarController.selectedViewController == self)
+                                                                                  shouldShowLoginAlert = NO;
 
                                                                           } else if (error) {
+                                                                              shouldShowLoginAlert = NO;
+                                                                              
                                                                               UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil 
                                                                                                                              message:@"Oops... Couldn't log you in. Please try again later." 
                                                                                                                             delegate:nil 
@@ -84,7 +89,10 @@ enum cellSubviewTags {
                                                                                                                    otherButtonTitles:@"OK", nil];
                                                                               [alert show];
 
+
+
                                                                           } else {
+                                                                              shouldShowLoginAlert = YES;
                                                                               
                                                                               [self doUserNameRequest];
                                                                               
@@ -171,6 +179,11 @@ enum cellSubviewTags {
     
     self.user = [SFUser sharedUserObj];
     
+    self.tabBarController.delegate = self;
+    
+    shouldShowLoginAlert = YES;
+
+    
 }
 
 - (void)viewDidUnload
@@ -182,6 +195,7 @@ enum cellSubviewTags {
     titleLab = nil;
     
     wavImageView = nil;
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -194,7 +208,7 @@ enum cellSubviewTags {
 {
     [super viewDidAppear:animated];
     
-    if([SCSoundCloud account] == nil)
+    if([SCSoundCloud account] == nil && shouldShowLoginAlert)
     {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"Log in to see your favorites!" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"OK", nil];
         
@@ -268,7 +282,6 @@ enum cellSubviewTags {
             if(![[self.user.favWavformURLAr objectAtIndex:indexPath.row]isMemberOfClass:[NSNull class]])
                url = [[NSURL alloc] initWithString:[self.user.favWavformURLAr objectAtIndex:indexPath.row]];
 
-            NSLog(@"background");
             NSData *imageData = [[NSData alloc] initWithContentsOfURL:url];
             UIImage *image = [[UIImage alloc] initWithData:imageData];
             
@@ -285,7 +298,6 @@ enum cellSubviewTags {
             
             dispatch_queue_t main_queue = dispatch_get_main_queue();
             dispatch_async(main_queue, ^{
-                NSLog(@"main thread");
                 //take image from array to ensure it's the correct one for this row
                 iv.image = [self.user.wavformImagesAr objectAtIndex:indexPath.row];
             });
@@ -382,7 +394,11 @@ enum cellSubviewTags {
     
 }
 
-
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    if(viewController != self)
+        shouldShowLoginAlert = YES;    
+}
 
 
 
