@@ -1,4 +1,3 @@
-// !$*UTF8*$!
 {
 	archiveVersion = 1;
 	classes = {
@@ -38,6 +37,12 @@
 		2EC9772014EEB33300761F2B /* favs.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EC9771E14EEB33300761F2B /* favs.png */; };
 		2EC9772314EEBA4E00761F2B /* loading_wav2.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EC9772214EEBA4E00761F2B /* loading_wav2.png */; };
 		2EDAAD3714EFEA8E00681E3C /* NoFavsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EDAAD3614EFEA8E00681E3C /* NoFavsView.xib */; };
+		2EB8B53F14EA879200182314 /* SoundcloudFavsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8B53E14EA879200182314 /* SoundcloudFavsApp.swift */; };
+		2EB8B54014EA879200182314 /* SFAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8B53F14EA879200182314 /* SFAppDelegate.swift */; };
+		2EB8B54114EA879200182314 /* NoFavsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8B54014EA879200182314 /* NoFavsView.swift */; };
+		2EB8B54214EA879200182314 /* SFAccountDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8B54114EA879200182314 /* SFAccountDetailsView.swift */; };
+		2EB8B54314EA879200182314 /* SFFeedsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8B54214EA879200182314 /* SFFeedsView.swift */; };
+		2EB8B54414EA879200182314 /* SFUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8B54314EA879200182314 /* SFUser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,30 +85,36 @@
 		2EC9771E14EEB33300761F2B /* favs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favs.png; sourceTree = "<group>"; };
 		2EC9772214EEBA4E00761F2B /* loading_wav2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading_wav2.png; sourceTree = "<group>"; };
 		2EDAAD3614EFEA8E00681E3C /* NoFavsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoFavsView.xib; sourceTree = "<group>"; };
+		2EB8B53E14EA879200182314 /* SoundcloudFavsApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundcloudFavsApp.swift; sourceTree = "<group>"; };
+		2EB8B53F14EA879200182314 /* SFAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFAppDelegate.swift; sourceTree = "<group>"; };
+		2EB8B54014EA879200182314 /* NoFavsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoFavsView.swift; sourceTree = "<group>"; };
+		2EB8B54114EA879200182314 /* SFAccountDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFAccountDetailsView.swift; sourceTree = "<group>"; };
+		2EB8B54214EA879200182314 /* SFFeedsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFFeedsView.swift; sourceTree = "<group>"; };
+		2EB8B54314EA879200182314 /* SFUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFUser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		2EB8B52314EA879200182314 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2EB8B57914EA8A2700182314 /* AddressBook.framework in Frameworks */,
-				2EB8B57A14EA8A2700182314 /* AddressBookUI.framework in Frameworks */,
-				2EB8B57B14EA8A2700182314 /* CoreLocation.framework in Frameworks */,
-				2EB8B57C14EA8A2700182314 /* CoreText.framework in Frameworks */,
-				2EB8B57D14EA8A2700182314 /* QuartzCore.framework in Frameworks */,
-				2EB8B57E14EA8A2700182314 /* Security.framework in Frameworks */,
-				2EB8B52F14EA879200182314 /* CoreGraphics.framework in Frameworks */,
-				2EB8B56E14EA89CC00182314 /* libJSONKit.a in Frameworks */,
-				2EB8B56F14EA89CC00182314 /* libOAuth2Client.a in Frameworks */,
-				2EB8B57014EA89CC00182314 /* libOHAttributedLabel.a in Frameworks */,
-				2EB8B57114EA89CC00182314 /* libSoundCloudAPI.a in Frameworks */,
-				2EB8B57214EA89CC00182314 /* libSoundCloudUI.a in Frameworks */,
-				2EB8B52B14EA879200182314 /* UIKit.framework in Frameworks */,
-				2EB8B52D14EA879200182314 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+				isa = PBXFrameworksBuildPhase;
+				buildActionMask = 2147483647;
+				files = (
+					2EB8B57914EA8A2700182314 /* AddressBook.framework in Frameworks */,
+					2EB8B57A14EA8A2700182314 /* AddressBookUI.framework in Frameworks */,
+					2EB8B57B14EA8A2700182314 /* CoreLocation.framework in Frameworks */,
+					2EB8B57C14EA8A2700182314 /* CoreText.framework in Frameworks */,
+					2EB8B57D14EA8A2700182314 /* QuartzCore.framework in Frameworks */,
+					2EB8B57E14EA8A2700182314 /* Security.framework in Frameworks */,
+					2EB8B52F14EA879200182314 /* CoreGraphics.framework in Frameworks */,
+					2EB8B56E14EA89CC00182314 /* libJSONKit.a in Frameworks */,
+					2EB8B56F14EA89CC00182314 /* libOAuth2Client.a in Frameworks */,
+					2EB8B57014EA89CC00182314 /* libOHAttributedLabel.a in Frameworks */,
+					2EB8B57114EA89CC00182314 /* libSoundCloudAPI.a in Frameworks */,
+					2EB8B57214EA89CC00182314 /* libSoundCloudUI.a in Frameworks */,
+					2EB8B52B14EA879200182314 /* UIKit.framework in Frameworks */,
+					2EB8B52D14EA879200182314 /* Foundation.framework in Frameworks */,
+				);
+				runOnlyForDeploymentPostprocessing = 0;
+			};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -286,6 +297,12 @@
 				2EB2728314ED01F000D1C133 /* SFUser.m in Sources */,
 				2EB2728814ED682400D1C133 /* SFCustomTableViewCell.m in Sources */,
 				2E3F7EB314EDB5EE00D8F6A1 /* SFAccountDetailsVC.m in Sources */,
+				2EB8B53F14EA879200182314 /* SoundcloudFavsApp.swift in Sources */,
+				2EB8B54014EA879200182314 /* SFAppDelegate.swift in Sources */,
+				2EB8B54114EA879200182314 /* NoFavsView.swift in Sources */,
+				2EB8B54214EA879200182314 /* SFAccountDetailsView.swift in Sources */,
+				2EB8B54314EA879200182314 /* SFFeedsView.swift in Sources */,
+				2EB8B54414EA879200182314 /* SFUser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +356,19 @@
 				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_VERSION = 5.0;
+				CLANG_ENABLE_MODULES = YES;
+				ENABLE_BITCODE = NO;
+				OTHER_SWIFT_FLAGS = "-DDEBUG";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/SoundcloudFavs";
+				SWIFT_OBJC_BRIDGING_HEADER = "SoundcloudFavs/SoundcloudFavs-Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "SoundcloudFavs-Swift.h";
+				SWIFT_OPTIMIZATION_PROFILE = "Debug";
+				SWIFT_VERSION = 5.0;
+				USE_RECURSIVE_SCRIPT_INPUTS_IN_SCRIPT_PHASES = YES;
 			};
 			name = Debug;
 		};
@@ -365,6 +395,19 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				SWIFT_VERSION = 5.0;
+				CLANG_ENABLE_MODULES = YES;
+				ENABLE_BITCODE = NO;
+				OTHER_SWIFT_FLAGS = "-DDEBUG";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/SoundcloudFavs";
+				SWIFT_OBJC_BRIDGING_HEADER = "SoundcloudFavs/SoundcloudFavs-Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "SoundcloudFavs-Swift.h";
+				SWIFT_OPTIMIZATION_PROFILE = "Debug";
+				SWIFT_VERSION = 5.0;
+				USE_RECURSIVE_SCRIPT_INPUTS_IN_SCRIPT_PHASES = YES;
 			};
 			name = Release;
 		};
